@@ -109,7 +109,7 @@ class EffectPipeline {
     this.buffer1.remove();
     this.buffer2.remove();
     this.buffer1 = this.p5.createGraphics(width, height);
-    this.buffer2 = this.p5.createGraphics(height, height);
+    this.buffer2 = this.p5.createGraphics(width, height);
   }
 }
 
