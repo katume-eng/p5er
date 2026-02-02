@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>p5er - Modular Effects Pipeline</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Note: p5.js CDN may be blocked in some environments. -->
+  <!-- For local development, download p5.min.js and place it in lib/ directory -->
+  <!-- Then uncomment the local script and comment out the CDN script -->
 </head>
 <body>
   <div class="container">
@@ -14,8 +17,11 @@
     <div id="ui-container"></div>
   </div>
 
-  <!-- p5.js library -->
+  <!-- p5.js library from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  
+  <!-- Alternative: Local p5.js (uncomment if CDN is blocked) -->
+  <!-- <script src="lib/p5.min.js"></script> -->
   
   <!-- Core modules -->
   <script src="src/core/Effect.js"></script>

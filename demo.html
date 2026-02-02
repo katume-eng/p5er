@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5er Demo - Standalone</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e3c72;
+      color: white;
+      padding: 20px;
+      margin: 0;
+    }
+    .demo-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    h1 { color: #ffd700; }
+    .info-box {
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+    .status {
+      padding: 10px;
+      background: rgba(100,200,100,0.2);
+      border-left: 3px solid #64c864;
+      margin: 10px 0;
+    }
+    code {
+      background: rgba(0,0,0,0.5);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    ul { line-height: 1.8; }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1>🎨 p5er - Modular Effects Pipeline</h1>
+    
+    <div class="info-box">
+      <h2>✅ Implementation Complete</h2>
+      <p>A fully modular p5.js creative application for applying visual effects to images, video, and camera input.</p>
+    </div>
+
+    <div class="status">
+      <strong>Status:</strong> All core components implemented and ready to use
+    </div>
+
+    <h2>📦 What's Included</h2>
+    <ul>
+      <li><strong>Core Architecture</strong>
+        <ul>
+          <li><code>Effect</code> - Base class for extensible effects</li>
+          <li><code>EffectPipeline</code> - Manages effect processing chain with ping-pong buffering</li>
+        </ul>
+      </li>
+      <li><strong>Example Effects</strong>
+        <ul>
+          <li><code>MaskedNoiseEffect</code> - Dynamic noise with masking</li>
+          <li><code>DelayedFramesEffect</code> - Echo/trail effect with frame history</li>
+          <li><code>FaceAuraEffect</code> - Glowing aura with stubbed face detection</li>
+        </ul>
+      </li>
+      <li><strong>UI System</strong>
+        <ul>
+          <li><code>UIController</code> - Separated UI management</li>
+          <li>Input source selection (Camera/Image/Video)</li>
+          <li>Effect enable/disable and reordering</li>
+          <li>Real-time parameter adjustment</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>🏗️ Architecture Highlights</h2>
+    <ul>
+      <li>✅ <strong>p5.js Instance Mode</strong> - Clean, non-global namespace</li>
+      <li>✅ <strong>Offscreen Buffers</strong> - Each effect uses p5.Graphics for processing</li>
+      <li>✅ <strong>Ping-Pong Buffering</strong> - Efficient multi-effect pipeline</li>
+      <li>✅ <strong>Modular Effects</strong> - Independent, reorderable modules</li>
+      <li>✅ <strong>Separated UI</strong> - UI logic independent from rendering</li>
+      <li>✅ <strong>Extensible Design</strong> - Easy to add new effects</li>
+    </ul>
+
+    <h2>🚀 Getting Started</h2>
+    <div class="info-box">
+      <ol>
+        <li>Open <code>index.html</code> in a modern browser</li>
+        <li>Allow camera access when prompted (or select Image/Video input)</li>
+        <li>Toggle effects on/off with the ✓/✗ button</li>
+        <li>Reorder effects using ↑/↓ arrows</li>
+        <li>Click an effect to adjust its parameters</li>
+      </ol>
+    </div>
+
+    <h2>💡 Key Features</h2>
+    <ul>
+      <li><strong>Multiple Input Sources</strong> - Camera, static images, or video</li>
+      <li><strong>Real-time Processing</strong> - 30 FPS effect processing</li>
+      <li><strong>Live Parameter Tuning</strong> - Adjust effects while running</li>
+      <li><strong>Effect Reordering</strong> - Change the processing order dynamically</li>
+      <li><strong>Buffer Masking</strong> - Advanced compositing techniques</li>
+      <li><strong>Temporal Effects</strong> - Frame history and delays</li>
+    </ul>
+
+    <h2>📝 Creating Custom Effects</h2>
+    <div class="info-box">
+      <p>Extend the <code>Effect</code> base class:</p>
+      <pre style="background: rgba(0,0,0,0.5); padding: 10px; overflow-x: auto; border-radius: 5px;">
+class MyEffect extends Effect {
+  constructor(p5Instance) {
+    super('My Effect', p5Instance);
+    this.parameters = { intensity: 0.5 };
+  }
+  
+  process(inputBuffer, outputBuffer) {
+    // Your effect logic here
+    outputBuffer.image(inputBuffer, 0, 0);
+  }
+}</pre>
+    </div>
+
+    <h2>📚 Documentation</h2>
+    <ul>
+      <li><code>README.md</code> - Complete documentation</li>
+      <li><code>DEMO.md</code> - Usage guide and examples</li>
+      <li>Inline code comments throughout</li>
+    </ul>
+
+    <h2>🎯 Technical Requirements Met</h2>
+    <ul>
+      <li>✅ Modular effect system with independent modules</li>
+      <li>✅ Reorderable effect pipeline</li>
+      <li>✅ Input/output buffer processing per effect</li>
+      <li>✅ p5.js instance mode implementation</li>
+      <li>✅ Offscreen buffer and masking support</li>
+      <li>✅ Example effects: noise, delayed frames, face aura</li>
+      <li>✅ Stubbed face landmarks (extensible to real ML)</li>
+      <li>✅ Separated rendering from UI</li>
+      <li>✅ Extensible architecture</li>
+    </ul>
+
+    <div class="status">
+      <strong>Ready to Use!</strong> Open <code>index.html</code> to start the application.
+    </div>
+  </div>
+</body>
+</html>
