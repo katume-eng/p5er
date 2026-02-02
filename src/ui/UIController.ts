@@ -1,9 +1,23 @@
+import { EffectPipeline } from '../core/EffectPipeline';
+
+type InputSource = 'camera' | 'image' | 'video';
+
+interface UICallbacks {
+  onInputSourceChange: ((source: InputSource) => void) | null;
+  onEffectChange: (() => void) | null;
+}
+
 /**
  * UIController - Manages user interface separately from rendering
  * Handles effect controls, reordering, and input source selection
  */
-class UIController {
-  constructor(pipeline) {
+export class UIController {
+  pipeline: EffectPipeline;
+  selectedEffectIndex: number;
+  inputSource: InputSource;
+  callbacks: UICallbacks;
+
+  constructor(pipeline: EffectPipeline) {
     this.pipeline = pipeline;
     this.selectedEffectIndex = -1;
     this.inputSource = 'camera'; // 'camera', 'image', 'video'
@@ -15,9 +29,9 @@ class UIController {
 
   /**
    * Create UI elements in the specified container
-   * @param {string} containerId - ID of container element
+   * @param containerId - ID of container element
    */
-  createUI(containerId) {
+  createUI(containerId: string): void {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -53,7 +67,7 @@ class UIController {
   /**
    * Set up event listeners for UI controls
    */
-  setupEventListeners() {
+  setupEventListeners(): void {
     // Input source buttons
     const cameraBtn = document.getElementById('btn-camera');
     const imageBtn = document.getElementById('btn-image');
@@ -73,7 +87,7 @@ class UIController {
   /**
    * Update the effects list display
    */
-  updateEffectList() {
+  updateEffectList(): void {
     const container = document.getElementById('effects-container');
     if (!container) return;
 
@@ -109,14 +123,16 @@ class UIController {
   /**
    * Attach event listeners to effect list items
    */
-  attachEffectListeners() {
+  attachEffectListeners(): void {
     // Effect selection
     document.querySelectorAll('.effect-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('toggle-btn') &&
-            !e.target.classList.contains('up-btn') &&
-            !e.target.classList.contains('down-btn')) {
-          this.selectEffect(parseInt(item.dataset.index));
+        const target = e.target as HTMLElement;
+        if (!target.classList.contains('toggle-btn') &&
+            !target.classList.contains('up-btn') &&
+            !target.classList.contains('down-btn')) {
+          const element = item as HTMLElement;
+          this.selectEffect(parseInt(element.dataset.index || '-1'));
         }
       });
     });
@@ -125,7 +141,8 @@ class UIController {
     document.querySelectorAll('.toggle-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        this.toggleEffect(parseInt(btn.dataset.index));
+        const element = btn as HTMLElement;
+        this.toggleEffect(parseInt(element.dataset.index || '-1'));
       });
     });
 
@@ -133,7 +150,8 @@ class UIController {
     document.querySelectorAll('.up-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const index = parseInt(btn.dataset.index);
+        const element = btn as HTMLElement;
+        const index = parseInt(element.dataset.index || '-1');
         if (index > 0) {
           this.pipeline.reorderEffect(index, index - 1);
           if (this.selectedEffectIndex === index) {
@@ -148,7 +166,8 @@ class UIController {
     document.querySelectorAll('.down-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const index = parseInt(btn.dataset.index);
+        const element = btn as HTMLElement;
+        const index = parseInt(element.dataset.index || '-1');
         const effects = this.pipeline.getEffects();
         if (index < effects.length - 1) {
           this.pipeline.reorderEffect(index, index + 1);
@@ -164,9 +183,9 @@ class UIController {
 
   /**
    * Select an effect for parameter editing
-   * @param {number} index - Effect index
+   * @param index - Effect index
    */
-  selectEffect(index) {
+  selectEffect(index: number): void {
     this.selectedEffectIndex = index;
     this.updateEffectList();
     this.updateParameterControls();
@@ -174,9 +193,9 @@ class UIController {
 
   /**
    * Toggle effect enabled state
-   * @param {number} index - Effect index
+   * @param index - Effect index
    */
-  toggleEffect(index) {
+  toggleEffect(index: number): void {
     const effects = this.pipeline.getEffects();
     if (index >= 0 && index < effects.length) {
       const effect = effects[index];
@@ -189,7 +208,7 @@ class UIController {
   /**
    * Update parameter controls for selected effect
    */
-  updateParameterControls() {
+  updateParameterControls(): void {
     const container = document.getElementById('parameters-container');
     if (!container) return;
 
@@ -240,7 +259,7 @@ class UIController {
   /**
    * Attach event listeners to parameter controls
    */
-  attachParameterListeners() {
+  attachParameterListeners(): void {
     const effects = this.pipeline.getEffects();
     if (this.selectedEffectIndex < 0 || this.selectedEffectIndex >= effects.length) {
       return;
@@ -249,12 +268,13 @@ class UIController {
     const effect = effects[this.selectedEffectIndex];
     
     for (let key in effect.parameters) {
-      const input = document.getElementById(`param-${key}`);
+      const input = document.getElementById(`param-${key}`) as HTMLInputElement;
       if (!input) continue;
 
       if (input.type === 'range') {
         input.addEventListener('input', (e) => {
-          const value = parseFloat(e.target.value);
+          const target = e.target as HTMLInputElement;
+          const value = parseFloat(target.value);
           effect.setParameter(key, value);
           const valueSpan = document.getElementById(`value-${key}`);
           if (valueSpan) {
@@ -264,7 +284,8 @@ class UIController {
         });
       } else if (input.type === 'checkbox') {
         input.addEventListener('change', (e) => {
-          effect.setParameter(key, e.target.checked);
+          const target = e.target as HTMLInputElement;
+          effect.setParameter(key, target.checked);
           this.notifyEffectChange();
         });
       }
@@ -273,9 +294,9 @@ class UIController {
 
   /**
    * Set input source
-   * @param {string} source - 'camera', 'image', or 'video'
+   * @param source - 'camera', 'image', or 'video'
    */
-  setInputSource(source) {
+  setInputSource(source: InputSource): void {
     this.inputSource = source;
     
     // Update button states
@@ -295,39 +316,34 @@ class UIController {
 
   /**
    * Get current input source
-   * @returns {string} Current input source
+   * @returns Current input source
    */
-  getInputSource() {
+  getInputSource(): InputSource {
     return this.inputSource;
   }
 
   /**
    * Set callback for input source changes
-   * @param {Function} callback - Callback function
+   * @param callback - Callback function
    */
-  onInputSourceChange(callback) {
+  onInputSourceChange(callback: (source: InputSource) => void): void {
     this.callbacks.onInputSourceChange = callback;
   }
 
   /**
    * Set callback for effect changes
-   * @param {Function} callback - Callback function
+   * @param callback - Callback function
    */
-  onEffectChange(callback) {
+  onEffectChange(callback: () => void): void {
     this.callbacks.onEffectChange = callback;
   }
 
   /**
    * Notify that effects have changed
    */
-  notifyEffectChange() {
+  notifyEffectChange(): void {
     if (this.callbacks.onEffectChange) {
       this.callbacks.onEffectChange();
     }
   }
-}
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = UIController;
 }

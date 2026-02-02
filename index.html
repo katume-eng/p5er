@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>p5er - Modular Effects Pipeline</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Note: p5.js CDN may be blocked in some environments. -->
-  <!-- For local development, download p5.min.js and place it in lib/ directory -->
-  <!-- Then uncomment the local script and comment out the CDN script -->
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <div class="container">
@@ -17,27 +14,7 @@
     <div id="ui-container"></div>
   </div>
 
-  <!-- p5.js library from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js" 
-          integrity="sha384-OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb" 
-          crossorigin="anonymous"></script>
-  
-  <!-- Alternative: Local p5.js (uncomment if CDN is blocked) -->
-  <!-- <script src="lib/p5.min.js"></script> -->
-  
-  <!-- Core modules -->
-  <script src="src/core/Effect.js"></script>
-  <script src="src/core/EffectPipeline.js"></script>
-  
-  <!-- Effect modules -->
-  <script src="src/effects/MaskedNoiseEffect.js"></script>
-  <script src="src/effects/DelayedFramesEffect.js"></script>
-  <script src="src/effects/FaceAuraEffect.js"></script>
-  
-  <!-- UI module -->
-  <script src="src/ui/UIController.js"></script>
-  
-  <!-- Main application -->
-  <script src="src/main.js"></script>
+  <!-- Main application module -->
+  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

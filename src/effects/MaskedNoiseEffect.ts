@@ -1,9 +1,22 @@
+import type p5 from 'p5';
+import { Effect } from '../core/Effect';
+
+interface MaskedNoiseParameters {
+  noiseScale: number;
+  noiseStrength: number;
+  maskThreshold: number;
+  useColorMask: boolean;
+}
+
 /**
  * MaskedNoiseEffect - Applies noise overlay with masking
  * Demonstrates offscreen buffer manipulation and masking
  */
-class MaskedNoiseEffect extends Effect {
-  constructor(p5Instance) {
+export class MaskedNoiseEffect extends Effect {
+  parameters: MaskedNoiseParameters;
+  noiseBuffer: p5.Graphics | null;
+
+  constructor(p5Instance: p5) {
     super('Masked Noise', p5Instance);
     
     // Initialize parameters
@@ -20,10 +33,10 @@ class MaskedNoiseEffect extends Effect {
 
   /**
    * Process input with masked noise overlay
-   * @param {p5.Graphics} inputBuffer - Source buffer
-   * @param {p5.Graphics} outputBuffer - Destination buffer
+   * @param inputBuffer - Source buffer
+   * @param outputBuffer - Destination buffer
    */
-  process(inputBuffer, outputBuffer) {
+  process(inputBuffer: p5.Graphics, outputBuffer: p5.Graphics): void {
     const p = this.p5;
     const w = inputBuffer.width;
     const h = inputBuffer.height;
@@ -85,9 +98,4 @@ class MaskedNoiseEffect extends Effect {
     // Clean up temporary buffer
     maskBuffer.remove();
   }
-}
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = MaskedNoiseEffect;
 }

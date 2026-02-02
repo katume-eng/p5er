@@ -1,9 +1,19 @@
+import type p5 from 'p5';
+import { Effect } from './Effect';
+
 /**
  * EffectPipeline manages a reorderable chain of effects
  * Each effect processes an input buffer into an output buffer
  */
-class EffectPipeline {
-  constructor(p5Instance, width, height) {
+export class EffectPipeline {
+  p5: p5;
+  width: number;
+  height: number;
+  effects: Effect[];
+  buffer1: p5.Graphics;
+  buffer2: p5.Graphics;
+
+  constructor(p5Instance: p5, width: number, height: number) {
     this.p5 = p5Instance;
     this.width = width;
     this.height = height;
@@ -16,17 +26,17 @@ class EffectPipeline {
 
   /**
    * Add an effect to the pipeline
-   * @param {Effect} effect - Effect instance to add
+   * @param effect - Effect instance to add
    */
-  addEffect(effect) {
+  addEffect(effect: Effect): void {
     this.effects.push(effect);
   }
 
   /**
    * Remove an effect from the pipeline
-   * @param {number} index - Index of effect to remove
+   * @param index - Index of effect to remove
    */
-  removeEffect(index) {
+  removeEffect(index: number): void {
     if (index >= 0 && index < this.effects.length) {
       this.effects.splice(index, 1);
     }
@@ -34,10 +44,10 @@ class EffectPipeline {
 
   /**
    * Reorder effects in the pipeline
-   * @param {number} fromIndex - Current position
-   * @param {number} toIndex - New position
+   * @param fromIndex - Current position
+   * @param toIndex - New position
    */
-  reorderEffect(fromIndex, toIndex) {
+  reorderEffect(fromIndex: number, toIndex: number): void {
     if (fromIndex >= 0 && fromIndex < this.effects.length &&
         toIndex >= 0 && toIndex < this.effects.length) {
       const effect = this.effects.splice(fromIndex, 1)[0];
@@ -47,13 +57,13 @@ class EffectPipeline {
 
   /**
    * Process input through all enabled effects
-   * @param {p5.Graphics|p5.Image|p5.Element} input - Input source
-   * @returns {p5.Graphics} Final processed buffer
+   * @param input - Input source
+   * @returns Final processed buffer
    */
-  process(input) {
+  process(input: p5.Graphics | p5.Image | p5.Element): p5.Graphics {
     if (this.effects.length === 0) {
       // No effects, just copy input to buffer
-      this.buffer1.image(input, 0, 0);
+      this.buffer1.image(input as any, 0, 0);
       return this.buffer1;
     }
 
@@ -62,7 +72,7 @@ class EffectPipeline {
     
     // Copy input to first buffer
     inputBuffer.clear();
-    inputBuffer.image(input, 0, 0);
+    inputBuffer.image(input as any, 0, 0);
 
     // Process through each enabled effect
     for (let i = 0; i < this.effects.length; i++) {
@@ -85,25 +95,25 @@ class EffectPipeline {
 
   /**
    * Get all effects in the pipeline
-   * @returns {Array<Effect>} Array of effects
+   * @returns Array of effects
    */
-  getEffects() {
+  getEffects(): Effect[] {
     return this.effects;
   }
 
   /**
    * Clear all effects from the pipeline
    */
-  clear() {
+  clear(): void {
     this.effects = [];
   }
 
   /**
    * Resize buffers (call when canvas size changes)
-   * @param {number} width - New width
-   * @param {number} height - New height
+   * @param width - New width
+   * @param height - New height
    */
-  resize(width, height) {
+  resize(width: number, height: number): void {
     this.width = width;
     this.height = height;
     this.buffer1.remove();
@@ -111,9 +121,4 @@ class EffectPipeline {
     this.buffer1 = this.p5.createGraphics(width, height);
     this.buffer2 = this.p5.createGraphics(width, height);
   }
-}
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = EffectPipeline;
 }
