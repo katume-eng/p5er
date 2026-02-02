@@ -1,9 +1,21 @@
+import type p5 from 'p5';
+import { Effect } from '../core/Effect';
+
+interface DelayedFramesParameters {
+  delayFrames: number;
+  mixAmount: number;
+  maxBuffers: number;
+}
+
 /**
  * DelayedFramesEffect - Creates echo/trail effect by mixing delayed frames
  * Demonstrates temporal buffering and frame history
  */
-class DelayedFramesEffect extends Effect {
-  constructor(p5Instance) {
+export class DelayedFramesEffect extends Effect {
+  parameters: DelayedFramesParameters;
+  frameHistory: p5.Graphics[];
+
+  constructor(p5Instance: p5) {
     super('Delayed Frames', p5Instance);
     
     // Initialize parameters
@@ -19,10 +31,10 @@ class DelayedFramesEffect extends Effect {
 
   /**
    * Process input with delayed frame mixing
-   * @param {p5.Graphics} inputBuffer - Source buffer
-   * @param {p5.Graphics} outputBuffer - Destination buffer
+   * @param inputBuffer - Source buffer
+   * @param outputBuffer - Destination buffer
    */
-  process(inputBuffer, outputBuffer) {
+  process(inputBuffer: p5.Graphics, outputBuffer: p5.Graphics): void {
     const p = this.p5;
     const w = inputBuffer.width;
     const h = inputBuffer.height;
@@ -72,15 +84,10 @@ class DelayedFramesEffect extends Effect {
   /**
    * Clear frame history
    */
-  clearHistory() {
+  clearHistory(): void {
     for (let frame of this.frameHistory) {
       frame.remove();
     }
     this.frameHistory = [];
   }
-}
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = DelayedFramesEffect;
 }

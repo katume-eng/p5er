@@ -1,10 +1,33 @@
+import type p5 from 'p5';
+import { Effect } from '../core/Effect';
+
+interface FaceAuraParameters {
+  auraSize: number;
+  auraColor: [number, number, number];
+  auraAlpha: number;
+  glowIntensity: number;
+  useStubLandmarks: boolean;
+}
+
+interface FaceLandmark {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 /**
  * FaceAuraEffect - Creates an aura around detected faces
  * Uses stubbed face landmarks for demonstration purposes
  * In production, could integrate with ml5.js or TensorFlow.js
  */
-class FaceAuraEffect extends Effect {
-  constructor(p5Instance) {
+export class FaceAuraEffect extends Effect {
+  parameters: FaceAuraParameters;
+  stubbedLandmarks: FaceLandmark[] | null;
+
+  constructor(p5Instance: p5) {
     super('Face Aura', p5Instance);
     
     // Initialize parameters
@@ -22,11 +45,11 @@ class FaceAuraEffect extends Effect {
 
   /**
    * Get stubbed face landmarks (simulated detection)
-   * @param {number} w - Canvas width
-   * @param {number} h - Canvas height
-   * @returns {Array} Array of face landmark objects
+   * @param w - Canvas width
+   * @param h - Canvas height
+   * @returns Array of face landmark objects
    */
-  getStubbedLandmarks(w, h) {
+  getStubbedLandmarks(w: number, h: number): FaceLandmark[] {
     // Simulate a face in the center-upper area
     const centerX = w / 2;
     const centerY = h / 2.5;
@@ -46,10 +69,10 @@ class FaceAuraEffect extends Effect {
 
   /**
    * Process input with face aura overlay
-   * @param {p5.Graphics} inputBuffer - Source buffer
-   * @param {p5.Graphics} outputBuffer - Destination buffer
+   * @param inputBuffer - Source buffer
+   * @param outputBuffer - Destination buffer
    */
-  process(inputBuffer, outputBuffer) {
+  process(inputBuffer: p5.Graphics, outputBuffer: p5.Graphics): void {
     const p = this.p5;
     const w = inputBuffer.width;
     const h = inputBuffer.height;
@@ -90,14 +113,9 @@ class FaceAuraEffect extends Effect {
 
   /**
    * Set face detection source (stub vs real ML model)
-   * @param {boolean} useStub - Whether to use stubbed landmarks
+   * @param useStub - Whether to use stubbed landmarks
    */
-  setUseStubLandmarks(useStub) {
+  setUseStubLandmarks(useStub: boolean): void {
     this.parameters.useStubLandmarks = useStub;
   }
-}
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = FaceAuraEffect;
 }

@@ -91,9 +91,29 @@ git clone https://github.com/katume-eng/p5er.git
 cd p5er
 ```
 
-2. Open `index.html` in a modern web browser
+2. Install dependencies:
+```bash
+npm install
+```
 
-No build process required! The application runs directly in the browser.
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open your browser to `http://localhost:3000`
+
+### Build for Production
+
+To create a production build:
+```bash
+npm run build
+```
+
+The built files will be in the `dist/` directory. You can preview the production build with:
+```bash
+npm run preview
+```
 
 ### Usage
 
@@ -159,8 +179,18 @@ p5er/
 
 ## Technical Details
 
-### p5.js Instance Mode
-The application uses p5.js instance mode to avoid global namespace pollution and allow multiple instances if needed.
+### Build System
+The application uses Vite as its build tool, with TypeScript for type safety and better development experience.
+
+### p5.js Integration
+- p5.js is installed as an npm dependency (no CDN required)
+- Uses p5.js instance mode to avoid global namespace pollution
+- Type definitions provided via `@types/p5`
+
+### Module System
+- ES modules for clean dependency management
+- TypeScript for static type checking
+- Vite for fast development and optimized production builds
 
 ### Buffer Management
 - Uses ping-pong buffering for efficient multi-effect processing

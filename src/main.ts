@@ -1,16 +1,23 @@
+import p5 from 'p5';
+import { EffectPipeline } from './core/EffectPipeline';
+import { MaskedNoiseEffect } from './effects/MaskedNoiseEffect';
+import { DelayedFramesEffect } from './effects/DelayedFramesEffect';
+import { FaceAuraEffect } from './effects/FaceAuraEffect';
+import { UIController } from './ui/UIController';
+
 /**
  * Main Application - p5.js instance mode
  * Initializes the effect pipeline and manages input sources
  */
 
 // Create p5 instance
-const sketch = (p) => {
-  let pipeline;
-  let uiController;
-  let capture;
-  let testImage;
-  let testVideo;
-  let currentInput;
+const sketch = (p: p5) => {
+  let pipeline: EffectPipeline;
+  let uiController: UIController;
+  let capture: p5.Element;
+  let testImage: p5.Graphics;
+  let testVideo: p5.Graphics;
+  let currentInput: p5.Graphics | p5.Image | p5.Element;
   
   const CANVAS_WIDTH = 640;
   const CANVAS_HEIGHT = 480;
@@ -92,7 +99,7 @@ const sketch = (p) => {
   /**
    * Initialize camera capture
    */
-  function initCamera() {
+  function initCamera(): void {
     if (capture) {
       capture.remove();
     }
@@ -107,7 +114,7 @@ const sketch = (p) => {
   /**
    * Load test image
    */
-  function loadTestImage() {
+  function loadTestImage(): p5.Graphics {
     // Create a test pattern if no image is available
     if (!testImage) {
       testImage = p.createGraphics(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -139,7 +146,7 @@ const sketch = (p) => {
   /**
    * Load test video (creates an animated test pattern)
    */
-  function loadTestVideo() {
+  function loadTestVideo(): p5.Graphics {
     if (!testVideo) {
       testVideo = p.createGraphics(CANVAS_WIDTH, CANVAS_HEIGHT);
     }
@@ -167,9 +174,9 @@ const sketch = (p) => {
 
   /**
    * Switch input source
-   * @param {string} source - 'camera', 'image', or 'video'
+   * @param source - 'camera', 'image', or 'video'
    */
-  function switchInputSource(source) {
+  function switchInputSource(source: 'camera' | 'image' | 'video'): void {
     console.log('Switching to input source:', source);
     
     switch (source) {
