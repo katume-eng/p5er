@@ -2,19 +2,24 @@
 
 ## Running the Application
 
-### Step 1: Open the Application
-Simply open `index.html` in a modern web browser:
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
+### Step 1: Install Dependencies
+```bash
+npm install
+```
 
-### Step 2: Grant Camera Access (Optional)
+### Step 2: Start Development Server
+```bash
+npm run dev
+```
+
+The application will open automatically at `http://localhost:3000`
+
+### Step 3: Grant Camera Access (Optional)
 If using camera input:
 - Click "Allow" when prompted for camera access
 - Or select "Image" or "Video" for test inputs
 
-### Step 3: Explore the Interface
+### Step 4: Explore the Interface
 
 #### Left Panel - Canvas
 - Live preview of effects
@@ -86,6 +91,20 @@ If using camera input:
 - Check that effects are enabled (✓ icon)
 - Adjust parameter values
 - Reload the page
+
+## Building for Production
+
+To create an optimized production build:
+```bash
+npm run build
+```
+
+Files will be generated in the `dist/` directory.
+
+To preview the production build:
+```bash
+npm run preview
+```
 
 ## Next Steps
 
