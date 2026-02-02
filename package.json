@@ -1,0 +1,12 @@
+{
+  "name": "p5er",
+  "version": "1.0.0",
+  "description": "Making p5.js applications for all",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
