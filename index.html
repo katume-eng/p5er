@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5er - Modular Effects Pipeline</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="main-content">
+      <div id="canvas-container"></div>
+    </div>
+    <div id="ui-container"></div>
+  </div>
+
+  <!-- p5.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  
+  <!-- Core modules -->
+  <script src="src/core/Effect.js"></script>
+  <script src="src/core/EffectPipeline.js"></script>
+  
+  <!-- Effect modules -->
+  <script src="src/effects/MaskedNoiseEffect.js"></script>
+  <script src="src/effects/DelayedFramesEffect.js"></script>
+  <script src="src/effects/FaceAuraEffect.js"></script>
+  
+  <!-- UI module -->
+  <script src="src/ui/UIController.js"></script>
+  
+  <!-- Main application -->
+  <script src="src/main.js"></script>
+</body>
+</html>
